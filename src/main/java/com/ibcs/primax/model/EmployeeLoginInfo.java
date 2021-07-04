@@ -8,17 +8,22 @@ public class EmployeeLoginInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Integer id;
+    @Column(name = "login_id")
+    private Long id;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
-    @Column
+    @Column(name = "password")
     private String password;
 
-    @OneToOne
-    private Employee employee;
+   /* @OneToOne(cascade = CascadeType.ALL, mappedBy = "employeeLoginInfo")
+    @JoinColumn(
+            name = "employee_id",
+            foreignKey = @ForeignKey(name = "emp_id_fk")
+
+    )
+    private Employee employee;*/
 
 
 }

@@ -14,22 +14,22 @@ public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Integer id;
+    private Long id;
 
-    @Column(name = "account_type")
+    @Column(name = "account_type", nullable = false)
     private AccountType accountType;
 
-    @Column(name = "account_name")
+    @Column(name = "account_name", nullable = false)
     private String accountName;
 
-    @Column(name = "branch_name")
+    @Column(name = "branch_name", nullable = false)
     private String branchName;
 
-    @Column(name = "bank_name")
+    @Column(name = "bank_name", nullable = false)
     private String bankName;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_ids", referencedColumnName = "id")
-    private List<Employee> employees = new ArrayList<>();
+    /*@OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "em_id", referencedColumnName = "id")
+    private List<Employee> employees = new ArrayList<>();*/
 
 }

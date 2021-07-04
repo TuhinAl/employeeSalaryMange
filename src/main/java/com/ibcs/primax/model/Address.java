@@ -11,18 +11,20 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Integer id;
+    @Column(name = "address_id")
+    private Long id;
 
-    @Column
+    @Column(name = "district")
     private String district;
 
-    @Column
+    @Column(name = "division")
     private String division;
 
-    @Column
+    @Column(name = "address_line")
     private String addressLine;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn( name = "employee_id")
+
     private Employee employee;
 }
