@@ -2,8 +2,8 @@ package com.ibcs.primax.model;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "employee_login_info")
+/*@Entity
+@Table(name = "employee_login_info")*/
 public class EmployeeLoginInfo {
 
     @Id

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +19,7 @@ public class Employee {
     private Long id;
 
     @Column(name = "employee_id", nullable = false)
-    private String employeeId;
+    private Long employeeId;
 
     @Column(name = "employee_name", nullable = false)
     private String employeeName;
@@ -29,11 +30,23 @@ public class Employee {
     @Column(name = "mobile", nullable = false)
     private String mobile;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "employee_grade_type", nullable = false)
+    private String gradeType;
+
+
+    @Column()
+    private Date employeeCreateDate;
+
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             mappedBy = "employee",orphanRemoval = true,
+            optional = false,
             fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "add_id_fk", referencedColumnName = "id")
     private Address address;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
@@ -43,20 +56,15 @@ public class Employee {
     private EmployeeAccount employeeAccount;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bank_id", referencedColumnName = "id")
+    @ManyToOne
+    @MapsId("bankId")
+    @JoinColumn(name = "bank_id",
+    foreignKey = @ForeignKey(
+            name = "bank_employee_id_fk"
+    )
+    )
     private  Bank bank;
 
-/*
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-        mappedBy = "employee" , orphanRemoval = true,
-            fetch = FetchType.LAZY
-
-    )
-    private EmployeeLoginInfo employeeLoginInfo;
-
-
-*/
 
 
 }

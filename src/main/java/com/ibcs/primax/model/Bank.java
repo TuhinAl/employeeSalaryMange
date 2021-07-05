@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -15,6 +16,7 @@ public class Bank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
+
 
     @Column(name = "account_type", nullable = false)
     private AccountType accountType;
@@ -28,8 +30,14 @@ public class Bank {
     @Column(name = "bank_name", nullable = false)
     private String bankName;
 
-    /*@OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "em_id", referencedColumnName = "id")
-    private List<Employee> employees = new ArrayList<>();*/
+    @Column
+    private Date accountCreateDate;
+
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+    mappedBy = "bank"
+    )
+    /*@JoinColumn(name = "em_id", referencedColumnName = "id")*/
+    private List<Employee> employee = new ArrayList<>();
 
 }
