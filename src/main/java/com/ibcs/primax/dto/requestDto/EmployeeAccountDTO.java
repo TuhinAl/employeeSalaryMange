@@ -1,16 +1,22 @@
 package com.ibcs.primax.dto.requestDto;
 
 import com.ibcs.primax.model.AccountType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeAccountDTO {
 
-    private Integer id;
-    private String employeeId;
-    private String gradeType;
-    private String bankName;
-    private String branchName;
+    private Long employeeId;
     private AccountType accountType;
-    private Long basicSalary;
-    private Long homeRent;
-    private Long medicalAllowance;
+    private Double basicSalary;
+    private Double homeRent;
+    private Double medicalAllowance;
+    private Date createDate;
 }

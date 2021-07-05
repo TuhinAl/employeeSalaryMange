@@ -14,9 +14,9 @@ public class EmployeeAccount {
     @Column
     private Long id;
 
-
+/*
     @Column(name = "employee_account_id", nullable = false)
-    private String employeeIds;
+    private Long employeeIds;*/
 
    /* @Column(name = "bank_name", nullable = false)
     private String bankName;
@@ -36,7 +36,6 @@ public class EmployeeAccount {
     @Column(name = "medical_allowance", nullable = false)
     private Double medicalAllowance;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
+    @OneToOne(mappedBy = "employeeAccount")
     private Employee employee;
 }

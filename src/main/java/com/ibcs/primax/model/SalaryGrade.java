@@ -21,7 +21,7 @@ public enum SalaryGrade {
         return status;
     }
 
-    public static SalaryGrade returnProductStatus(String status) {
+    public static SalaryGrade returnGradeStatus(String status) {
         return Arrays.stream(values()).filter(
                     p -> p.status.equalsIgnoreCase(status)).findFirst().orElse(null);
     }

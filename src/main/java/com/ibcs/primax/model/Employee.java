@@ -11,15 +11,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "employee")
+@Table(name = "employee_infos")
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "employee_id", nullable = false)
-    private Long employeeId;
 
     @Column(name = "employee_name", nullable = false)
     private String employeeName;
@@ -34,35 +31,25 @@ public class Employee {
     private String password;
 
     @Column(name = "employee_grade_type", nullable = false)
-    private String gradeType;
+    @Enumerated
+    private SalaryGrade gradeType;
 
 
     @Column()
     private Date employeeCreateDate;
 
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            mappedBy = "employee",orphanRemoval = true,
-            optional = false,
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name = "add_id_fk", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "adddress_id", referencedColumnName = "id")
     private Address address;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-    mappedBy = "employee", orphanRemoval = true,
-    fetch = FetchType.LAZY
-    )
+   @OneToOne(cascade = CascadeType.ALL)
+   @JoinColumn(name = "em_ac_id", referencedColumnName = "id")
     private EmployeeAccount employeeAccount;
 
 
-    @ManyToOne
-    @MapsId("bankId")
-    @JoinColumn(name = "bank_id",
-    foreignKey = @ForeignKey(
-            name = "bank_employee_id_fk"
-    )
-    )
+    @ManyToOne()
+  /*  @JoinColumn(name = "emp_id", referencedColumnName = "id")*/
     private  Bank bank;
 
 

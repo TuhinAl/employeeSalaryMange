@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Date;
+
 
 @Data
 @NoArgsConstructor
@@ -15,13 +17,20 @@ import lombok.ToString;
 @ToString
 public class EmployeeDTO {
 
-    private Integer id;
-    private Long employeeId;
+
+    private Long  id;
     private String employeeName;
     private String email;
     private String mobile;
+    private String password;
+    private String grade;
+    private Enum accountType;
     private Address address;
-    private EmployeeAccount employeeAccount;
-    private Bank bank;
+    private Double basicSalary;
+    private String branchName;
+    private String bankName;
+    private Date createDate;
+
+
 
 }

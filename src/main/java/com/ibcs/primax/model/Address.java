@@ -11,7 +11,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id")
+    @Column
     private Long id;
 
     @Column(name = "district")
@@ -23,8 +23,6 @@ public class Address {
     @Column(name = "address_line")
     private String addressLine;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn( name = "employee_id")
-
+    @OneToOne(mappedBy = "address")
     private Employee employee;
 }

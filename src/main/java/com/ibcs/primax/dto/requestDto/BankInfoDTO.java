@@ -1,10 +1,21 @@
 package com.ibcs.primax.dto.requestDto;
 
-public class BankInfoDTO {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-    private Integer id;
+import java.util.Date;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class BankInfoDTO {
     private String accountType;
     private String accountName;
+    private Double currentBalance;
     private String branchName;
     private String bankName;
+    private Date createDate;
 }

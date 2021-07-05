@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "bank")
+@Table(name = "bank_info")
 public class Bank {
 
     @Id
@@ -30,14 +30,14 @@ public class Bank {
     @Column(name = "bank_name", nullable = false)
     private String bankName;
 
+    @Column(name = "current_balance", nullable = false)
+    private Double currentBalance;
+
     @Column
     private Date accountCreateDate;
 
-
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-    mappedBy = "bank"
-    )
-    /*@JoinColumn(name = "em_id", referencedColumnName = "id")*/
-    private List<Employee> employee = new ArrayList<>();
+    mappedBy = "bank")
+    private List<Employee> employee ;
 
 }
