@@ -8,7 +8,7 @@ public interface EmployeeService {
 
     EmployeeDTO saveEmployee(EmployeeDTO employee);
 
-    EmployeeDTO getEmployeeById(String email);
+    EmployeeDTO getEmployeeById(Long id);
 
     String updateEmployee(Long Id, EmployeeDTO dto);
 

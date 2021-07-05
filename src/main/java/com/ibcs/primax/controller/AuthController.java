@@ -78,12 +78,12 @@ public class AuthController {
                     HttpStatus.BAD_REQUEST);
         }
 
-        // Creating user's account
-        Employee jwtUser = new Employee();
+        // Creating employee account
+        Employee jwtEmployee = new Employee();
 
-        jwtUser.setEmail(signUpRequest.getEmail());
-        jwtUser.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        employeeRepository.save(jwtUser);
+        jwtEmployee.setEmail(signUpRequest.getEmail());
+        jwtEmployee.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        employeeRepository.save(jwtEmployee);
         return ResponseEntity.ok(new ApiResponse(true, "User registered successfully"));
     }
 

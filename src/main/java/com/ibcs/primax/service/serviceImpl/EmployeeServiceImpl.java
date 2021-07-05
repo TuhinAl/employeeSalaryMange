@@ -53,9 +53,43 @@ public class EmployeeServiceImpl implements EmployeeService {
     EmployeeResponseMapper employeeResponseMapper;
 
 
+    /**
+     *
+     * @param employee
+     * @return
+     * @Comment Before Inject Model class Data into DB,  I used a MAPPER layer,
+     * here i mapped Entity to DTO & DTO to Entity, I have use DTO for transfer object
+     * between different layer, I never want to expose my DB column that is why i used DTO
+     *
+     */
 
 
-
+    /**
+     *
+     * @param employee
+     * @return
+     * @COmment The Scenario behind how I inject my data into different table, I have create more than one
+     *  table to normalize data,
+     *  _________________________ Table and data
+     *  Employee - contains user basic information like email, pass
+     *  EmployeeAccount - this table contains Account related information of an Employee
+     *  Address - addresses of Employee
+     *  Bank - all bank related information like bankName, branchName
+     *  Company - this table used for put data about a company
+     *
+     *  Relation between Table
+     *
+     *      Address 1------------1 Employee 1------------- 1 EmployeeAccount
+     *                                M
+     *                                '
+     *                                '
+     *                                1
+     *                                Bank 1 -------------- M Company
+     *
+     *
+     *
+     *
+     */
 
     @Override
     public EmployeeDTO saveEmployee(EmployeeDTO employee) {
@@ -64,8 +98,18 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeNotFoundException("Empty employee received");
         }
 
+        /**
+         * though Employee table primary key use as FK in Bank and AccountInfo table
+         *  to i save Employee first
+         */
 
         employeeRepository.save(employeeRequestMapper.employeeMap(employee));
+
+        /**
+         *  here i hard-code for initial current balance
+         *  then save Bank Table data
+         *
+         */
 
         BankInfoDTO bankInfo = new BankInfoDTO();
         bankInfo.setBankName(employee.getBankName());
@@ -74,6 +118,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         bankInfo.setCurrentBalance(50000.00);
 
         bankRepository.save(bankInfoRequestMapping.bankMap(bankInfo));
+
+
+        /**
+         * before save Employee Account Information i calculated GRADE wise basic salary, home rent feees,
+         *  medical allowance fees as requirements
+         */
 
         double calculateBasicSalary = calculateSalary(employee.getBasicSalary(),
                 SalaryGrade.returnGradeStatus(employee.getGrade()));
@@ -97,19 +147,21 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .employeeAccountMap(employeeAccount));
 
 
-
         return null;
     }
 
+
+
     @Override
-    public EmployeeDTO getEmployeeById(String email) {
+    public EmployeeDTO getEmployeeById(Long id) {
        // System.out.println("Debug: inside 'get employee by id: " + id);
        /* if (id == null) {
             throw new IllegalArgumentException("Empty Employee id received");
         }*/
            // Optional<Employee> employee = employeeRepository.findById(id);
-        //Employee employee = employeeRepository.getEmployeeById(id);
-        Employee employee = employeeRepository.findByEmail(email);
+        Employee employee = employeeRepository.getById(id);
+
+        //Employee employee = employeeRepository.findByEmail(email);
         System.out.println("Debug: inside 'get employee by id: Employee: " + employee);
         return employeeResponseMapper.Map(employee);
     }
@@ -120,7 +172,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (Id == null || dto == null) {
             throw new IllegalArgumentException("Empty Employee id and dto received");
         }
-
         Employee employee = employeeRepository.getEmployeeById(Id);
 
         employee.setId(employee.getId());
@@ -151,6 +202,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return "Employee Deleted successfully";
     }
 
+
+    /**
+     *
+     *
+     * @param baseSalary
+     * @param grade
+     * @return base salary
+     * @Comment calculate basic salalry
+     */
 
     public double calculateSalary(double baseSalary, SalaryGrade grade) {
 
@@ -190,7 +250,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-
+    /**
+     *
+     * @param baseSalary
+     * @return homeRent
+     * calculate home rent
+     */
     double calculateHomeRent(double baseSalary) {
         System.out.println("DEBUG: Inside Home Rent Calculate Method: "+baseSalary);
         double  homeRent = (baseSalary * 0.2);
@@ -198,6 +263,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return homeRent;
 
     }
+
+    /**
+     *
+     * @param baseSalary
+     * @return medicalFees
+     * calculate medicalFees
+     */
 
     double calculateMedicalAllowance(double baseSalary) {
         System.out.println("DEBUG: Inside Medical Allowance Calculate Method: "+baseSalary);

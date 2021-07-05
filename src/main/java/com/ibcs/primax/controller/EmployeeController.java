@@ -12,15 +12,24 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+
+    /**
+     *
+     * @param employeeDTO
+     * @return
+     * @comment Return Type I used here is mostly that is very practice
+     * but i know how implement Generic response and handle error in spring boot
+     */
+
     @PostMapping("/save")
     public String saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
         employeeService.saveEmployee(employeeDTO);
         return "employee Saved successfully";
     }
 
-    @GetMapping("/get/by/email")
-    public EmployeeDTO getEmployeeById(@RequestParam  String email) {
-        return employeeService.getEmployeeById(email);
+    @GetMapping("/get/by/{id}")
+    public EmployeeDTO getEmployeeById(@PathVariable  Long id) {
+        return employeeService.getEmployeeById(id);
     }
 
     @PutMapping("/update/{id}")
