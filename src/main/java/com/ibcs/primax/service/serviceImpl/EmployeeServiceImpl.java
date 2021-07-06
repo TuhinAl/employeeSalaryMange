@@ -127,12 +127,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         double calculateBasicSalary = calculateSalary(employee.getBasicSalary(),
                 SalaryGrade.returnGradeStatus(employee.getGrade()));
-        System.out.println("****calculateBasicSalary**: "+calculateBasicSalary);
+        System.out.println("**** calculateBasicSalary**: "+calculateBasicSalary);
 
         double homeRent = calculateHomeRent(employee.getBasicSalary());
-        System.out.println("****homeRent**: "+homeRent);
+        System.out.println("**** homeRent**: "+homeRent);
+
         double medicalFess = calculateMedicalAllowance(employee.getBasicSalary());
-        System.out.println("****medicalFess**: "+medicalFess);
+        System.out.println("**** medicalFess**: "+medicalFess);
 
 
 

@@ -33,6 +33,9 @@ public class EmployeeAccount {
     @Column(name = "home_rent", nullable = false)
     private Double homeRent;
 
+    @Column(name = "account_balance", nullable = false)
+    private Double accountBalance;
+
     @Column(name = "medical_allowance", nullable = false)
     private Double medicalAllowance;
 

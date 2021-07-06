@@ -18,7 +18,7 @@ public class EmployeeController {
      * @param employeeDTO
      * @return
      * @comment Return Type I used here is mostly that is very practice
-     * but i know how implement Generic response and handle error in spring boot
+     * but i know how to implement Generic response and handle error in spring boot
      */
 
     @PostMapping("/save")

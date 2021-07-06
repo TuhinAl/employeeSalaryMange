@@ -29,18 +29,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtRequestFilter jwtRequestFilter;
 
+    /**
+     *
+     * @param auth
+     * @throws Exception
+     * @Description configure Authentication manager to authencate Employee
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
         auth.userDetailsService(customEmployeeDetailsService);
     }
 
+    /**
+     *
+     * @param security
+     * @throws Exception
+     * @Description though i am not use Role base permission, here i permit some of my api public,
+     *
+     */
+
     @Override
     protected void configure(HttpSecurity security) throws Exception {
         super.configure(security);
         security.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/demo", "/demo2", "/demo3")
+                .antMatchers("/auth/*", "/bank/*", "/company/*","/employee/*",
+                        "/employee/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -52,11 +67,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     *
+     * mange authentication
+     */
+
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
+    /**
+     *
+     * @return encoded password using Base64 algorithm
+     */
 
     @Bean
     public PasswordEncoder passwordEncoder() {

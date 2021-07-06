@@ -21,6 +21,10 @@ public class Company {
     @Column(name = "company_bank_account_number")
     private String companyBankAccountNumber;
 
+    @Column(name = "current_balance", nullable = false)
+    private Double companyCurrentBalance;
+
+
     @Column(name = "account_type")
     private AccountType accountType;
 }
