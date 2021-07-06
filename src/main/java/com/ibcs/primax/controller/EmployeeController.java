@@ -1,12 +1,15 @@
 package com.ibcs.primax.controller;
 
 import com.ibcs.primax.dto.requestDto.EmployeeDTO;
+import com.ibcs.primax.model.Employee;
 import com.ibcs.primax.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/employee/v1/api")
+@RequestMapping("/api/employee/v1")
 public class EmployeeController {
 
     @Autowired
@@ -28,7 +31,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/get/by/{id}")
-    public EmployeeDTO getEmployeeById(@PathVariable  Long id) {
+    public Optional<Employee> getEmployeeById(@PathVariable("id") Long id) {
+        System.out.println("DEBUG: get Employee by id "+id);
+
         return employeeService.getEmployeeById(id);
     }
 

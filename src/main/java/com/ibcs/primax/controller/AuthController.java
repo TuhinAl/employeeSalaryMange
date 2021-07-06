@@ -1,13 +1,13 @@
 package com.ibcs.primax.controller;
 
 import com.ibcs.primax.common.util.ApiResponse;
+import com.ibcs.primax.dto.requestDto.EmployeeDTO;
 import com.ibcs.primax.jwt.dto.AuthenticationResponse;
 import com.ibcs.primax.jwt.dto.LoginRequest;
-import com.ibcs.primax.jwt.dto.SignUpRequest;
 import com.ibcs.primax.jwt.jwtService.CustomEmployeeDetailsService;
-import com.ibcs.primax.jwt.jwtService.JwtUtil;
 import com.ibcs.primax.model.Employee;
 import com.ibcs.primax.repository.EmployeeRepository;
+import com.ibcs.primax.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -30,8 +30,8 @@ import javax.validation.Valid;
  * @project primax
  **/
 
-@Repository
-@RequestMapping("/auth")
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -43,47 +43,40 @@ public class AuthController {
     @Autowired
     CustomEmployeeDetailsService customEmployeeDetailsService;
 
-    @Autowired
-    JwtUtil jwtUtil;
 
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @Autowired
+    EmployeeService employeeService;
 
 
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
+    @PostMapping("/api/login")
+    public ResponseEntity<?> authenticateEmployee(@Valid @RequestBody LoginRequest loginRequest) {
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetails userDetails = customEmployeeDetailsService.loadUserByUsername(loginRequest.getEmail());
 
-        final String jwt = jwtUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse("ok"));
     }
 
+
+
+
+
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> registerEmployee(@Valid @RequestBody EmployeeDTO signUpEmployee) {
 
 
-        if(employeeRepository.findEmployeeByEmail(signUpRequest.getEmail()) != null) {
-            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+        Employee employeeByEmail = employeeRepository.findEmployeeByEmail(signUpEmployee.getEmail());
+
+        if(employeeByEmail != null) {
+            return new ResponseEntity(new ApiResponse(false, "Employee with this email already registered "),
                     HttpStatus.BAD_REQUEST);
         }
 
-        // Creating employee account
-        Employee jwtEmployee = new Employee();
+        employeeService.saveEmployee(signUpEmployee);
 
-        jwtEmployee.setEmail(signUpRequest.getEmail());
-        jwtEmployee.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        employeeRepository.save(jwtEmployee);
         return ResponseEntity.ok(new ApiResponse(true, "User registered successfully"));
     }
 

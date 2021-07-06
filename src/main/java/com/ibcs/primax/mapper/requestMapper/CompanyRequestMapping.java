@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
  * @created_on 7/6/21 at 9:38 AM
  * @project primax
  **/
+
 @Service
 public class CompanyRequestMapping {
 
@@ -19,6 +20,7 @@ public class CompanyRequestMapping {
         company.setCompanyName(dto.getCompanyName());
         company.setCompanyBankAccountNumber(dto.getCompanyBankAccountNumber());
         company.setAccountType(AccountType.CURRENT);
+        company.setCompanyCurrentBalance(dto.getCompanyCurrentBalance());
 
         return company;
     }

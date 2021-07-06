@@ -32,7 +32,6 @@ public class CustomEmployeeDetailsService implements UserDetailsService {
 
         }
 
-
         return new User(employee.getEmail(), employee.getPassword(), new ArrayList<>());
     }
 }

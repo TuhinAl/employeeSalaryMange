@@ -3,15 +3,16 @@ package com.ibcs.primax.controller;
 import com.ibcs.primax.model.EmployeeAccount;
 import com.ibcs.primax.service.interfaces.EmployeeAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@EnableTransactionManagement
 @RestController
-@RequestMapping("/employee/account/v1/api")
+@RequestMapping("/api/employee/account/v1")
 public class EmployeeAccountController {
 
     @Autowired

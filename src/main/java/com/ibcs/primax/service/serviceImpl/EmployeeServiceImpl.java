@@ -143,6 +143,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeAccount.setHomeRent(homeRent);
         employeeAccount.setMedicalAllowance(medicalFess);
         employeeAccount.setEmployeeId(employee.getId());
+        employeeAccount.setAccountBalance(20000.00);
 
         employeeAccountRepository.save(employeeAccountRequestMapping
                 .employeeAccountMap(employeeAccount));
@@ -154,17 +155,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public EmployeeDTO getEmployeeById(Long id) {
+    public Optional<Employee> getEmployeeById(Long id) {
+
+        System.out.println("DEBUG: get Employee by id "+id);
+
        // System.out.println("Debug: inside 'get employee by id: " + id);
        /* if (id == null) {
             throw new IllegalArgumentException("Empty Employee id received");
         }*/
-           // Optional<Employee> employee = employeeRepository.findById(id);
-        Employee employee = employeeRepository.getById(id);
+            Optional<Employee> employee = employeeRepository.findById(id);
+       // Employee employee = employeeRepository.getById(id);
 
         //Employee employee = employeeRepository.findByEmail(email);
         System.out.println("Debug: inside 'get employee by id: Employee: " + employee);
-        return employeeResponseMapper.Map(employee);
+       // return employeeResponseMapper.Map(employee);
+        return employee;
     }
 
     @Override
@@ -176,7 +181,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.getEmployeeById(Id);
 
         employee.setId(employee.getId());
-
         employee.setEmployeeName(dto.getEmployeeName());
         employee.setEmail(dto.getEmail());
         employee.setMobile(dto.getMobile());
@@ -185,7 +189,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setEmployeeCreateDate(employee.getEmployeeCreateDate());
 
         employeeRepository.save(employee);
-
         return "Employee added successfully";
     }
 

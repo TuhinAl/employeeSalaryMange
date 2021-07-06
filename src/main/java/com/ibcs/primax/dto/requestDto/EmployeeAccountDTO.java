@@ -18,5 +18,6 @@ public class EmployeeAccountDTO {
     private Double basicSalary;
     private Double homeRent;
     private Double medicalAllowance;
+    private Double accountBalance;
     private Date createDate;
 }

@@ -15,5 +15,6 @@ public class CompanyDTO {
     private String companyName;
     private String companyBankAccountNumber;
     private AccountType accountType;
+    private Double companyCurrentBalance;
     private Date createDate;
 }

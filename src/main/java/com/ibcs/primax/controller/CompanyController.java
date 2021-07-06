@@ -8,12 +8,19 @@ import org.springframework.web.bind.annotation.*;
 
 @EnableTransactionManagement
 @RestController
-@RequestMapping("/company/v1/api/")
+@RequestMapping("/api/company/v1/")
 
 public class CompanyController {
 
     @Autowired
     CompanyService companyService;
+
+    @PostMapping("/save")
+    public String saveCompany(@RequestBody CompanyDTO company) {
+        companyService.saveCompany(company);
+        return "Company saved successful";
+    }
+
 
     @PostMapping("/deposit/{id}")
     public void deposit(@PathVariable("id") Long id, @RequestParam double amount) {

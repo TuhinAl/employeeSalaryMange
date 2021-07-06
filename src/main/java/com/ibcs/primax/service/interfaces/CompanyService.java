@@ -12,5 +12,7 @@ public interface CompanyService {
 
     void transferAmount(double amount, Long companyId, Long employeeId);
 
+    void saveCompany(CompanyDTO dto);
+
 
 }

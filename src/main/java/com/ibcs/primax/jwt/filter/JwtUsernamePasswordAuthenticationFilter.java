@@ -33,6 +33,17 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws AuthenticationException
+     * @Description "attemptAuthentication" method check authentication of the request
+     *
+     *
+     */
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
@@ -52,6 +63,22 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         }
 
     }
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @param chain
+     * @param authResult
+     * @throws IOException
+     * @throws ServletException
+     * @Description  if authentication success then call the 'successfulAuthentication'
+     *  here I create a JWT token using HMACSHA Key algorithm, actual payloan and
+     *  Signature
+     *
+     *  I set the Expire time of  the TOKEN for 2 weeks, after 2 weeks token will invalidate and auto logout
+     *
+     */
 
 
     @Override

@@ -1,8 +1,6 @@
 package com.ibcs.primax.mapper.requestMapper;
 
-import com.ibcs.primax.dto.requestDto.BankInfoDTO;
 import com.ibcs.primax.dto.requestDto.EmployeeAccountDTO;
-import com.ibcs.primax.dto.requestDto.EmployeeDTO;
 import com.ibcs.primax.model.*;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +17,7 @@ public class EmployeeAccountMapping {
         employee.setBasicSalary(dto.getBasicSalary());
         employee.setHomeRent(dto.getHomeRent());
         employee.setMedicalAllowance(dto.getMedicalAllowance());
+        employee.setAccountBalance(dto.getAccountBalance());
 
         System.out.println("DEBUG: Inside EmployeeAccount Mapper output: "+employee);
 

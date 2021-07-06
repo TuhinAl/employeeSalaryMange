@@ -6,6 +6,7 @@ import com.ibcs.primax.service.interfaces.EmployeeAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -13,6 +14,9 @@ import java.util.List;
  * @created_on 7/6/21 at 2:13 AM
  * @project primax
  **/
+
+
+@Transactional
 @Service
 public class EmployeeAccountServiceImpl implements EmployeeAccountService {
 
@@ -26,8 +30,11 @@ public class EmployeeAccountServiceImpl implements EmployeeAccountService {
         return account;
     }
 
+
+
     @Override
     public List<EmployeeAccount> getAllAccount() {
+
         List<EmployeeAccount> accountList = employeeAccountRepository.findAll();
         return accountList;
     }

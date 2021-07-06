@@ -37,11 +37,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * @param auth
      * @throws Exception
-     * @Description configure Authentication manager to authencate Employee
+     * @Description configure Authentication manager to authenticate Employee
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+
         auth.userDetailsService(customEmployeeDetailsService);
     }
 
@@ -55,6 +55,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity security) throws Exception {
+        /**
+         * Here I used 2 filter, Authentication Filter & Token Verifier Filter
+         */
 
         security.csrf().disable()
                 .sessionManagement()

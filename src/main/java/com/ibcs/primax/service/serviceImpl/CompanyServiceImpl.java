@@ -4,7 +4,6 @@ import com.ibcs.primax.common.exception.InsufficientBalanceException;
 import com.ibcs.primax.dto.requestDto.CompanyDTO;
 import com.ibcs.primax.mapper.requestMapper.CompanyRequestMapping;
 import com.ibcs.primax.model.Company;
-import com.ibcs.primax.model.Employee;
 import com.ibcs.primax.model.EmployeeAccount;
 import com.ibcs.primax.repository.CompanyRepository;
 import com.ibcs.primax.repository.EmployeeAccountRepository;
@@ -103,5 +102,14 @@ public class CompanyServiceImpl implements CompanyService {
 
         employeeAccountRepository.save(employeeAccount);
         companyRepository.save(company);
+    }
+
+    @Override
+    public void saveCompany(CompanyDTO dto) {
+
+        if (dto == null) {
+            throw new EntityNotFoundException("Empty company value received!!");
+        }
+        companyRepository.save(companyRequestMapping.map(dto));
     }
 }

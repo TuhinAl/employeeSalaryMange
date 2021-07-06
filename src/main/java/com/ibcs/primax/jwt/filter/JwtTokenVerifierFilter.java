@@ -2,7 +2,6 @@ package com.ibcs.primax.jwt.filter;
 
 import com.google.common.base.Strings;
 import com.ibcs.primax.jwt.jwtService.CustomEmployeeDetailsService;
-import com.ibcs.primax.jwt.jwtService.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -11,7 +10,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -22,7 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,11 +33,22 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenVerifierFilter extends OncePerRequestFilter {
 
-    @Autowired
-    JwtUtil jwtUtil;
+
 
     @Autowired
     CustomEmployeeDetailsService customEmployeeDetailsService;
+
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     * @Description Here extract the actual token into Algorithm, payload, and signature
+     *   if token is valid
+     */
 
 
 
@@ -89,24 +97,5 @@ public class JwtTokenVerifierFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
 
 
-
-       /*
-        String jwtToken = null;
-        String username = null;
-
-       String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            jwtToken = bearerToken.substring(7, bearerToken.length());
-            username = jwtUtil.extractUsername(jwtToken);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = customEmployeeDetailsService.loadUserByUsername(username);
-                if (jwtUtil.validateToken(jwtToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                }
-            }
-        }
-        */
     }
 }
