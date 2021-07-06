@@ -1,11 +1,14 @@
 package com.ibcs.primax.jwt.security;
 
-import com.ibcs.primax.jwt.filter.JwtRequestFilter;
+import com.ibcs.primax.jwt.filter.JwtTokenVerifierFilter;
+import com.ibcs.primax.jwt.filter.JwtUsernamePasswordAuthenticationFilter;
 import com.ibcs.primax.jwt.jwtService.CustomEmployeeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,15 +22,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @created_on 7/6/21 at 12:59 AM
  * @project primax
  **/
-
+@Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableGlobalMethodSecurity(prePostEnabled = true,proxyTargetClass = true)
+public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     CustomEmployeeDetailsService customEmployeeDetailsService;
 
     @Autowired
-    JwtRequestFilter jwtRequestFilter;
+    JwtTokenVerifierFilter jwtTokenVerifierFilter;
 
     /**
      *
@@ -51,21 +55,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity security) throws Exception {
-        super.configure(security);
-        security.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/auth/*", "/bank/*", "/company/*","/employee/*",
-                        "/employee/*")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        security.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        security.csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager()))
+                .addFilterAfter(new JwtTokenVerifierFilter(), JwtUsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers("/api/**").permitAll()
+                .anyRequest()
+                .authenticated();
+
+        security.addFilterBefore(jwtTokenVerifierFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
+
+
+
+
 
     /**
      *
