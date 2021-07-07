@@ -2,10 +2,12 @@ package com.ibcs.primax.controller;
 
 import com.ibcs.primax.dto.requestDto.EmployeeDTO;
 import com.ibcs.primax.model.Employee;
+import com.ibcs.primax.repository.EmployeeRepository;
 import com.ibcs.primax.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -14,6 +16,9 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
 
     /**
@@ -47,5 +52,10 @@ public class EmployeeController {
     public String deleteEmployeeById(@PathVariable Long id) {
         employeeService.deleteEmployeeById(id);
         return "Employee Delete successful";
+    }
+
+    @GetMapping("/all")
+    public List<Employee> getAllEmployee() {
+        return employeeRepository.findAll();
     }
 }
